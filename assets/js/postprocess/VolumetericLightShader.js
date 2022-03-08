@@ -6,7 +6,8 @@ const VolumetericLightShader = {
         lightPosition: {value: new Vector2(0.5, 0.5)},
         exposure: {value: 0.18},
         decay: {value: 0.95},
-        density: {value: 0.8},
+        // density: {value: 0.8},
+        density: {value: 0.6},
         weight: {value: 0.4},
         samples: {value: 50}
     },
