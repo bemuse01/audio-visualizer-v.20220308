@@ -1,9 +1,12 @@
 import * as THREE from '../../../lib/three.module.js'
 import Particle from '../../objects/particle.js'
 import Shader from '../shader/visualizer.child.shader.js'
+import VisualizerParam from '../param/visualizer.param.js'
 
 export default class{
-    constructor({group}){
+    constructor({group, size}){
+        this.size = size
+        
         this.param = {
             size: 40,
             seg: 100,
@@ -18,7 +21,19 @@ export default class{
 
     // init
     init(group){
+        this.initRenderTarget()
         this.create(group)
+    }
+    initRenderTarget(){
+        const {w, h} = this.size.el
+
+        this.renderTarget = new THREE.WebGLRenderTarget(w, h, {format: THREE.RGBAFormat})
+        this.renderTarget.samples = 2048
+
+        this.rtCamera = new THREE.PerspectiveCamera(VisualizerParam.fov, w / h, VisualizerParam.near, VisualizerParam.far)
+        this.rtCamera.position.z = VisualizerParam.pos
+
+        this.rtScene = new THREE.Scene()
     }
 
 
@@ -27,24 +42,6 @@ export default class{
         this.createCircle(group)
     }
     createCircle(group){
-        // this.circle = new Circle({
-        //     radius: this.param.circleRad,
-        //     seg: this.param.seg,
-        //     materialOpt: {
-        //         color: this.param.color
-        //         // vertexShader: Shader.circle.vertex,
-        //         // fragmentShader: Shader.circle.fragment,
-        //         // transparent: true,
-        //         // blending: THREE.AdditiveBlending,
-        //         // uniforms: {
-        //         //     uColor: {value: new THREE.Color(this.param.color)},
-        //         //     uOpacity: {value: this.param.circleOpacity}
-        //         // }
-        //     }
-        // })
-
-        // this.circle.get().layers.set(PROCESS)
-
         const {size, seg} = this.param
         const {position, uv} = new THREE.BoxGeometry(size, size, size, seg, seg, seg).attributes
 
@@ -65,15 +62,21 @@ export default class{
         this.particle.setAttribute('position', position.array, 3)
         this.particle.setAttribute('uv', uv.array, 2)
 
-        this.particle.get().layers.set(PROCESS)
+        // this.particle.get().layers.set(PROCESS)
 
-        group.add(this.particle.get())
+        // group.add(this.particle.get())
+        this.rtScene.add(this.particle.get())
     }
 
 
     // animate
-    animate(){
+    animate({renderer}){
         this.particle.get().rotation.x += 0.005
         this.particle.get().rotation.y += 0.005
+
+        renderer.setRenderTarget(this.renderTarget)
+        renderer.clear()
+        renderer.render(this.rtScene, this.rtCamera)
+        renderer.setRenderTarget(null)
     }
 }

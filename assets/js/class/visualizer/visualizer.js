@@ -11,6 +11,7 @@ import {AdditiveBlendingShader} from '../../postprocess/AdditiveBlendingShader.j
 import PublicMethod from '../../method/method.js'
 
 import CHILD from './build/visualizer.child.build.js'
+import VOLUMETRIC from './build/visualizer.volumetric.build.js'
   
 export default class{
     constructor({app}){
@@ -23,7 +24,8 @@ export default class{
         }
 
         this.modules = {
-            CHILD,
+            child: CHILD,
+            volumetric: VOLUMETRIC
         }
         this.group = {}
         this.comp = {}
@@ -37,7 +39,7 @@ export default class{
     init(app){
         this.initGroup()
         this.initRenderObject()
-        this.initComposer(app)
+        // this.initComposer(app)
         this.create(app)
         this.add()
     }
@@ -118,7 +120,7 @@ export default class{
     // animate
     animate({app, audio}){
         this.render(app)
-        this.animateObject(audio)
+        this.animateObject(app, audio)
     }
     render(app){
         const rect = this.element.getBoundingClientRect()
@@ -130,25 +132,26 @@ export default class{
         app.renderer.setScissor(left, bottom, width, height)
         app.renderer.setViewport(left, bottom, width, height)
 
-        // this.camera.lookAt(this.scene.position)
-        // app.renderer.render(this.scene, this.camera)
-
-        app.renderer.autoClear = false
-        app.renderer.clear()
-
-        this.camera.layers.set(PROCESS)
-        this.composer.render()
-
-        app.renderer.clearDepth()
-        this.camera.layers.set(NORMAL)
+        this.camera.lookAt(this.scene.position)
         app.renderer.render(this.scene, this.camera)
+
+        // app.renderer.autoClear = false
+        // app.renderer.clear()
+
+        // this.camera.layers.set(PROCESS)
+        // this.composer.render()
+
+        // app.renderer.clearDepth()
+        // this.camera.layers.set(NORMAL)
+        // app.renderer.render(this.scene, this.camera)
     }
-    animateObject(audio){
+    animateObject(app, audio){
+        const {renderer} = app
         const {audioData} = audio
 
         for(let i in this.comp){
             if(!this.comp[i] || !this.comp[i].animate) continue
-            this.comp[i].animate(audioData)
+            this.comp[i].animate({renderer, audioData})
         }
     }
 
