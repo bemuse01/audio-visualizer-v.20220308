@@ -105,7 +105,7 @@ export default class{
     // animate
     animate({renderer, audioData, audioDataAvg}){
         if(audioData){
-            const exposure = audioDataAvg * 0.6
+            const exposure = audioDataAvg * 0.7
             this.effect.setUniform('exposure', this.param.exposure + exposure)
         }
 

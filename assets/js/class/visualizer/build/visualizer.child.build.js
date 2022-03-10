@@ -84,8 +84,8 @@ export default class{
 
         this.particle.setUniform('uTime', time)
 
-        this.particle.get().rotation.x += 0.006
-        this.particle.get().rotation.y += 0.006
+        this.particle.get().rotation.x += 0.009
+        this.particle.get().rotation.y += 0.009
 
         renderer.setRenderTarget(this.renderTarget)
         renderer.clear()
