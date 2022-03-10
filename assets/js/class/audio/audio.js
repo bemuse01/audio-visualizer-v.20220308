@@ -1,7 +1,7 @@
 export default class{
     constructor(){
         this.param = {
-            fft: 2 ** 14,
+            fft: 2 ** 13,
             smoothingTimeConstant: 0.85,
             src: 'assets/src/Mirage.mp3'
         }

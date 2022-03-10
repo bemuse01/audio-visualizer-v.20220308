@@ -55,7 +55,8 @@ export default class{
                 uniforms: {
                     uColor: {value: new THREE.Color(this.param.color)},
                     uPointSize: {value: this.param.pointSize},
-                    uTime: {value: 0}
+                    uTime: {value: 0},
+                    uAudio: {value: 0}
                 }
             }
         })
@@ -72,6 +73,16 @@ export default class{
 
     // animate
     animate({renderer, audioData}){
+        // if(audioData) console.log([...audioData].map(e => e / 255).reduce((x, y) => x + y) / audioData.length)
+        // if(audioData) console.log(Math.max(...audioData))
+        if(audioData){
+            const len = audioData.length / 4
+            const half = [...audioData].slice(0, len)
+            const avg = half.map(e => e / 255).reduce((x, y) => x + y) / len
+            this.particle.setUniform('uAudio', avg)
+            console.log(avg)
+        }
+
         const time = window.performance.now()
 
         this.particle.setUniform('uTime', time)

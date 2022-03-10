@@ -7,15 +7,16 @@ export default {
 
             uniform float uPointSize;
             uniform float uTime;
+            uniform float uAudio;
 
             ${ShaderMethod.snoise4D()}
 
             void main(){
                 vec3 newPosition = position;
 
-                float x = snoise4D(vec4(position * 0.1 * 0.5, uTime * 0.0005)) * 2.0;
-                float y = snoise4D(vec4(position * 0.2 * 0.5, uTime * 0.0005)) * 2.0;
-                float z = snoise4D(vec4(position * 0.3 * 0.5, uTime * 0.0005)) * 2.0;
+                float x = snoise4D(vec4(position * 0.1 * 0.25, uTime * 0.00075)) * 10.0 * uAudio;
+                float y = snoise4D(vec4(position * 0.2 * 0.25, uTime * 0.00075)) * 10.0 * uAudio;
+                float z = snoise4D(vec4(position * 0.3 * 0.25, uTime * 0.00075)) * 10.0 * uAudio;
 
                 newPosition.x += x;
                 newPosition.y += y;
