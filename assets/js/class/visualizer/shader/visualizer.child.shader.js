@@ -4,6 +4,7 @@ export default {
     draw: {
         vertex: `
             varying vec2 vUv;
+            varying vec3 vPosition;
 
             uniform float uPointSize;
             uniform float uTime;
@@ -27,15 +28,29 @@ export default {
                 gl_PointSize = uPointSize;
 
                 vUv = uv;
+                vPosition = position;
             }
         `,
         fragment: `
             varying vec2 vUv;
+            varying vec3 vPosition;
 
             uniform vec3 uColor;
+            uniform float uSize;
+
+            ${ShaderMethod.executeNormalizing()}
 
             void main(){
-                vec4 color = vec4(uColor, 1.0);
+                // float max = length(vec3(uSize));
+                // float dist = length(vPosition);
+                // float n = 1.0 - executeNormalizing(dist, 0.0, 1.0, uSize, max);
+
+                // float max = uSize;
+                // float x = length(vPosition.x);
+                // float n = executeNormalizing(x, 0.25, 1.0, 0.0, max);
+
+                // vec4 color = vec4(vec3(1.0, n, n), 1.0);
+                vec4 color = vec4(vec3(vUv, 1.0), 1.0);
 
                 gl_FragColor = color;
             }

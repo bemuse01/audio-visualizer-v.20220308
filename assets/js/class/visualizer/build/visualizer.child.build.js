@@ -56,7 +56,8 @@ export default class{
                     uColor: {value: new THREE.Color(this.param.color)},
                     uPointSize: {value: this.param.pointSize},
                     uTime: {value: 0},
-                    uAudio: {value: 0}
+                    uAudio: {value: 0},
+                    uSize: {value: this.param.size / 2}
                 }
             }
         })
