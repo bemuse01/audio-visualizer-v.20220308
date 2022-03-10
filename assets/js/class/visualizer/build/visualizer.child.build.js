@@ -8,7 +8,7 @@ export default class{
         this.size = size
         
         this.param = {
-            size: 40,
+            size: 45,
             seg: 100,
             color: 0xffffff,
             pointSize: 1,
@@ -54,7 +54,8 @@ export default class{
                 blending: THREE.AdditiveBlending,
                 uniforms: {
                     uColor: {value: new THREE.Color(this.param.color)},
-                    uPointSize: {value: this.param.pointSize}
+                    uPointSize: {value: this.param.pointSize},
+                    uTime: {value: 0}
                 }
             }
         })
@@ -70,7 +71,11 @@ export default class{
 
 
     // animate
-    animate({renderer}){
+    animate({renderer, audioData}){
+        const time = window.performance.now()
+
+        this.particle.setUniform('uTime', time)
+
         this.particle.get().rotation.x += 0.005
         this.particle.get().rotation.y += 0.005
 

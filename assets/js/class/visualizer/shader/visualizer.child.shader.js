@@ -6,9 +6,22 @@ export default {
             varying vec2 vUv;
 
             uniform float uPointSize;
+            uniform float uTime;
+
+            ${ShaderMethod.snoise4D()}
 
             void main(){
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                vec3 newPosition = position;
+
+                float x = snoise4D(vec4(position * 0.1 * 0.5, uTime * 0.0005)) * 2.0;
+                float y = snoise4D(vec4(position * 0.2 * 0.5, uTime * 0.0005)) * 2.0;
+                float z = snoise4D(vec4(position * 0.3 * 0.5, uTime * 0.0005)) * 2.0;
+
+                newPosition.x += x;
+                newPosition.y += y;
+                newPosition.z += z;
+
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
                 
                 gl_PointSize = uPointSize;
 
