@@ -9,6 +9,10 @@ export default class{
         
         this.texture = child.renderTarget.texture
 
+        this.param = {
+            exposure: 0.15
+        }
+
         this.init(group)
     }
 
@@ -51,8 +55,8 @@ export default class{
                     // uRes: {value: new THREE.Vector2(this.size.el.w, this.size.el.h)},
                     tDiffuse: {value: this.texture},
                     lightPosition: {value: new THREE.Vector2(0.5, 0.5)},
-                    // exposure: {value: 0.18},
-                    exposure: {value: 0.22},
+                    exposure: {value: this.param.exposure},
+                    // exposure: {value: 0.22},
                     // decay: {value: 0.95},
                     decay: {value: 0.95},
                     // density: {value: 0.8},
@@ -99,7 +103,12 @@ export default class{
 
 
     // animate
-    animate({renderer}){
+    animate({renderer, audioData, audioDataAvg}){
+        if(audioData){
+            const exposure = audioDataAvg * 0.6
+            this.effect.setUniform('exposure', this.param.exposure + exposure)
+        }
+
         renderer.setRenderTarget(this.renderTarget)
         renderer.clear()
         renderer.render(this.rtScene, this.rtCamera)

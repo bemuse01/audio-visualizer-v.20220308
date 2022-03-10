@@ -147,11 +147,11 @@ export default class{
     }
     animateObject(app, audio){
         const {renderer} = app
-        const {audioData} = audio
+        const {audioData, audioDataAvg} = audio
 
         for(let i in this.comp){
             if(!this.comp[i] || !this.comp[i].animate) continue
-            this.comp[i].animate({renderer, audioData})
+            this.comp[i].animate({renderer, audioData, audioDataAvg})
         }
     }
 

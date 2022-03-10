@@ -10,6 +10,7 @@ export default class{
         this.sample = null
         this.duration = 0
         this.currentTime = 0
+        this.avg = 0
 
         this.init()
     }
@@ -68,6 +69,10 @@ export default class{
         if(!this.analyser) return
 
         this.analyser.getByteFrequencyData(this.audioData)
+
+        const len = this.audioData.length / 2
+        const half = [...this.audioData].slice(0, len)
+        this.audioDataAvg = half.map(e => e / 255).reduce((x, y) => x + y) / len
     }
 
 

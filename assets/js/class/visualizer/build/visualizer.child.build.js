@@ -72,23 +72,17 @@ export default class{
 
 
     // animate
-    animate({renderer, audioData}){
-        // if(audioData) console.log([...audioData].map(e => e / 255).reduce((x, y) => x + y) / audioData.length)
-        // if(audioData) console.log(Math.max(...audioData))
+    animate({renderer, audioData, audioDataAvg}){
         if(audioData){
-            const len = audioData.length / 4
-            const half = [...audioData].slice(0, len)
-            const avg = half.map(e => e / 255).reduce((x, y) => x + y) / len
-            this.particle.setUniform('uAudio', avg)
-            console.log(avg)
+            this.particle.setUniform('uAudio', audioDataAvg)
         }
 
         const time = window.performance.now()
 
         this.particle.setUniform('uTime', time)
 
-        this.particle.get().rotation.x += 0.005
-        this.particle.get().rotation.y += 0.005
+        this.particle.get().rotation.x += 0.006
+        this.particle.get().rotation.y += 0.006
 
         renderer.setRenderTarget(this.renderTarget)
         renderer.clear()
