@@ -12,7 +12,8 @@ export default class{
             seg: 100,
             color: 0xffffff,
             pointSize: 1,
-            layer: PROCESS
+            layer: PROCESS,
+            boost: 15
         }
 
         this.init(group)
@@ -57,7 +58,8 @@ export default class{
                     uPointSize: {value: this.param.pointSize},
                     uTime: {value: 0},
                     uAudio: {value: 0},
-                    uSize: {value: this.param.size / 2}
+                    uSize: {value: this.param.size / 2},
+                    uBoost: {value: this.param.boost}
                 }
             }
         })
