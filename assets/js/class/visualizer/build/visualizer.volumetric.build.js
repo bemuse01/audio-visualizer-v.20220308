@@ -6,12 +6,22 @@ import VisualizerParam from '../param/visualizer.param.js'
 export default class{
     constructor({group, size, child}){
         this.size = size
+
+        const {w, h} = size.el
+        // const min = Math.min(w, h)
+        // const std = 115.47005383792515
+
+        console.log(h)
         
         this.texture = child.renderTarget.texture
 
         this.param = {
-            exposure: 0.15
+            // exposure: 0.15,
+            exposure: THREE.Math.clamp(h * 0.00016, 0.04, 0.15),
+            rd: THREE.Math.clamp(h * 0.00075, 0.25, 0.7)
         }
+
+        console.log(this.param)
 
         this.init(group)
     }
@@ -105,7 +115,7 @@ export default class{
     // animate
     animate({renderer, audioData, audioDataAvg}){
         if(audioData){
-            const exposure = audioDataAvg * 0.7
+            const exposure = audioDataAvg * this.param.rd
             this.effect.setUniform('exposure', this.param.exposure + exposure)
         }
 
