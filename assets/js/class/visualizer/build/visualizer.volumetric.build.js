@@ -17,7 +17,7 @@ export default class{
 
         this.param = {
             // exposure: 0.15,
-            exposure: THREE.Math.clamp(h * 0.00016, 0.04, 0.15),
+            exposure: THREE.Math.clamp(h * 0.00017, 0.04, 0.15),
             rd: THREE.Math.clamp(h * 0.00075, 0.25, 0.7)
         }
 
