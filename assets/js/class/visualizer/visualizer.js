@@ -7,6 +7,8 @@ import {ShaderPass} from '../../postprocess/ShaderPass.js'
 import {FXAAShader} from '../../postprocess/FXAAShader.js'
 import {VolumetericLightShader} from '../../postprocess/VolumetericLightShader.js'
 import {AdditiveBlendingShader} from '../../postprocess/AdditiveBlendingShader.js'
+import {VerticalBlurShader} from '../../postprocess/VerticalBlurShader.js'
+import {HorizontalBlurShader} from '../../postprocess/HorizontalBlurShader.js'
 
 import PublicMethod from '../../method/method.js'
 
